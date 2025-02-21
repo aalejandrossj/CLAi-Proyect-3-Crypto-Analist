@@ -1,0 +1,134 @@
+get_actual_data:
+  description: >
+    Retrieves the current data for the specified cryptocurrency based on the following text:
+    <text>
+    {prompt}
+    </text>
+  expected_output: >
+    Returns the current value of the cryptocurrency.
+
+get_historic_data:
+  description: >
+    Retrieves historical data for the cryptocurrency for a specified date.
+    Ensure the date is formatted as "MM DD, YYYY" (e.g., "Jan 23, 2025").
+    If a user requests information for a relative past date (e.g., one week ago),
+    calculate the exact date using {actual_date}.
+    Input:
+    {prompt}
+  expected_output: >
+    - moneda: The currency identifier (e.g., "bitcoin")
+    - fecha: Date in YYYY-MM-DD format
+    - Apertura: Opening price (includes currency symbol)
+    - Alza: Highest price of the day (includes currency symbol)
+    - Baja: Lowest price of the day (includes currency symbol)
+    - MarketCap: Market capitalization (includes currency symbol)
+
+indicators_tool:
+  description: |
+    Calculates various financial risk metrics using daily price data.
+    It uses the following parameters: Apertura (opening price), Alza (highest price),
+    Baja (lowest price), and MarketCap (market capitalization).
+    Input parameters:
+    - Apertura
+    - Alza
+    - Baja
+    - MarketCap
+
+  expected_output: |
+    Returns a dictionary containing the following calculated metrics:
+    {
+      'volatilidad': float,            # ((Alza - Baja) / Apertura) * 100
+      'potencial_ganancia': float,     # ((Alza - Apertura) / Apertura) * 100
+      'potencial_perdida': float,      # ((Apertura - Baja) / Apertura) * 100
+      'ratio_riesgo_beneficio': float, # potencial_ganancia / potencial_perdida
+      'indice_riesgo_simple': float    # volatilidad / ln(MarketCap)
+    }
+
+
+get_crypto_sentiment:
+  description: >
+    Extracts the cryptocurrency sentiment from social networks and calculates the sentiment index.
+    The coin is {prompt}
+  expected_output: >
+    "user": tweet.user.name,
+    "tweet": tweet_text,
+    "sentiment_score": sentiment_score
+
+predict_market_trend:
+  description: >
+    Using the data collected from the previous agents, produces a structured output with user-friendly information, organized into categories for all the data obtained.
+    For example, categories like values, indicators, tweets, and sentiment.
+
+  description: |
+    Calculates various financial risk metrics based on daily price data, according to {{moneda}} {{fecha}} {{Apertura}} {{Alza}} {{Baja}} {{MarketCap}}
+    Input parameters:
+    - Apertura:
+    - Alza:
+    - Baja:
+    - MarketCap:
+
+  expected_output: |
+    A dictionary containing the following calculated metrics:
+    {
+      'volatilidad': float,            # ((Alza - Baja) / Apertura) * 100
+      'potencial_ganancia': float,     # ((Alza - Apertura) / Apertura) * 100
+      'potencial_perdida': float,      # ((Apertura - Baja) / Apertura) * 100
+      'ratio_riesgo_beneficio': float, # potencial_ganancia / potencial_perdida
+      'indice_riesgo_simple': float    # volatilidad / ln(MarketCap)
+    }
+
+
+predict_market_trend:
+  description: >
+    Using the data collected from the previous agents, produces a structured output with user-friendly information, organized into categories for all the data obtained.
+    For example, categories like values, indicators, tweets, and sentiment, you need to response in spanish
+
+    <example>
+    **Predicción de Tendencia de Mercado para Solana ($SOL)**
+
+    ---
+
+    **1. Valores:**
+    - **Precio Actual:** Por debajo de 170 USD (se observó una reciente caída a 160 USD).
+    - **Volatilidad del Precio:** Se aprecian fluctuaciones significativas, y algunos usuarios predicen más caídas hasta los 150 USD.
+    - **Capitalización de Mercado:** El análisis indica un fuerte movimiento del mercado e interés en torno a las controversias actuales relacionadas con Solana.
+
+    ---
+
+    **2. Indicadores:**
+    - **Puntuación de Sentimiento en Tweets:**
+      - El sentimiento general refleja una perspectiva negativa, con varios usuarios expresando temor y precaución al poseer $SOL.
+      - Puntuación de sentimiento promedio en el análisis: aproximadamente -0.1 (indicando un sentimiento generalmente bajista).
+    - **Tweets Promocionales:** Un número significativo de tweets se centra en obsequios, lo que indica preocupación en la comunidad y posibles estrategias de manipulación del mercado.
+    - **Noticias Recientes:** Han surgido controversias, incluidos escándalos que involucran a los fundadores de Solana, lo cual contribuye a un sentimiento inversor negativo.
+
+    ---
+
+    **3. Análisis de Tweets y Sentimiento:**
+    - Total de tweets analizados: 25
+    - **Tweets Notablemente Negativos:**
+      - "Si posees Solana, saldría corriendo tan rápido como me fuera posible para venderla." (Puntuación de Sentimiento: 0.064)
+      - "El mayor escándalo de Solana desde FTX… 200M de dólares drenados de cripto." (Puntuación de Sentimiento: -0.1556)
+      - "¡SOLANA SE DESPLOMÓ POR DEBAJO DE 170 USD!" (Puntuación de Sentimiento: -0.5)
+
+    - **Tweets Notablemente Positivos:**
+      - "¡RECLAMA 300.000 $ONDO, comparte tu cartera $SOL!" (Puntuación de Sentimiento: 0.25)
+      - "Aprobación de ETF de Solana inminente… $SOL A 500 USD PRONTO." (Puntuación de Sentimiento: 0.0)
+      - Se observan varios tweets promocionales, que reflejan intentos de alentar la participación a pesar de la visión bajista.
+
+    ---
+
+    **4. Pronóstico y Predicciones de Precio:**
+    Dadas las emociones e indicadores actuales del mercado, se pueden proponer las siguientes proyecciones:
+    - **Corto Plazo (1-2 Días):** Es probable que el precio se mantenga por debajo de 170 USD con posibles descensos a 150 USD debido al sentimiento negativo y las controversias en la comunidad.
+    - **Mediano Plazo (1-3 Semanas):** Se espera volatilidad continua; a menos que surja un desencadenante positivo significativo, como noticias regulatorias favorables, los precios podrían tener dificultades para estabilizarse.
+    - **Largo Plazo (3+ Meses):** Las presiones del mercado, influidas por escándalos y el sentimiento de la comunidad, podrían mantener los precios deprimidos, a menos que los proyectos en torno a Solana demuestren una recuperación y crecimiento en un entorno de mercado positivo.
+
+    ---
+
+    **Conclusión:**
+    En resumen, el sentimiento actual sugiere que los inversores deben ser cautelosos con $SOL. Los escándalos activos, los sentimientos bajistas y la volatilidad del mercado apuntan a un panorama difícil en el corto y mediano plazo. Aun así, permanece la posibilidad de una recuperación si surgen desarrollos positivos adicionales, pero por ahora, la situación es delicada.
+
+    </example>
+  expected_output: >
+    ""
