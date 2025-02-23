@@ -1,15 +1,16 @@
 get_actual_data:
   description: >
-    Retrieves the current data for the specified cryptocurrency based on the following text:
+    Retrieves only the current data for the specified cryptocurrency based on the following text:
     <text>
     {prompt}
     </text>
+    Extract only the current cryptocurrency value without including any additional data. Not historical value
   expected_output: >
     Returns the current value of the cryptocurrency.
 
 get_historic_data:
   description: >
-    Retrieves historical data for the cryptocurrency for a specified date.
+    Retrieves only the historical data for the cryptocurrency for a specified date.
     Ensure the date is formatted as "MM DD, YYYY" (e.g., "Jan 23, 2025").
     If a user requests information for a relative past date (e.g., one week ago),
     calculate the exact date using {actual_date}.
