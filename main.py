@@ -43,7 +43,6 @@ agents_config = configs['agents']
 tasks_config = configs['tasks']
 
 
-
 class GetActualDataInput(BaseModel):
     """Input schema for GetActualData tool."""
     moneda: str = Field(..., description="The cryptocurrency name to fetch data for.")
@@ -267,13 +266,13 @@ agent_predictor = Agent(
 
 get_actual_data = Task(
   config=tasks_config['get_actual_data'],
-  agent=agente_valores,
+  agent=agente_valores
 )
 
 get_historic_data = Task(
   config=tasks_config['get_historic_data'],
-  agent=agente_valores,
-)
+  agent=agente_valores
+  )
 
 indicators_tool = Task(
   config=tasks_config['indicators_tool'],
@@ -309,4 +308,4 @@ crew = Crew(
 )
 
 
-result = crew.kickoff(inputs={'prompt': "Cual es el precio de bitcoin actual y de el dia 20 de febrero de 2025", 'actual_date': fecha_formateada})
+result = crew.kickoff(inputs={'prompt': "Cual es el precio de xrp actual de ayer, de hace una semana y de hace un mes, y comparamelo con el precio de solana en las mismas fechas, dime cual parece mejor inversion si quiero invertir a largo plazo", 'actual_date': fecha_formateada})
