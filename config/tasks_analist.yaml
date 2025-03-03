@@ -13,7 +13,8 @@ get_historic_data:
     Retrieves only the historical data for the cryptocurrency for a specified date.
     Ensure the date is formatted as "MM DD, YYYY" (e.g., "Jan 23, 2025").
     If a user requests information for a relative past date (e.g., one week ago),
-    calculate the exact date using {actual_date}.
+    Calculate the exact date using the actual date, that is: {actual_date}
+    Use the tool once for each date; NEVER use the tool in the same execution for two dates; one execution, one date.
     Input:
     {prompt}
   expected_output: >
@@ -23,6 +24,7 @@ get_historic_data:
     - Alza: Highest price of the day (includes currency symbol)
     - Baja: Lowest price of the day (includes currency symbol)
     - MarketCap: Market capitalization (includes currency symbol)
+
 
 indicators_tool:
   description: |

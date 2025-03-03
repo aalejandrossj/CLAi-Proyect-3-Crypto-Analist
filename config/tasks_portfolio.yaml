@@ -1,0 +1,53 @@
+obtain_transaction_and_actual_value:
+  description: >
+    Retrieves the most recent transaction recorded in the portfolio.  
+    Obtains the latest market data for the cryptocurrency involved in the last transaction within the portfolio.
+    The path to the portfolio is {archivo_csv}
+  expected_output: >
+    Returns the most recent transaction and the current market value of the specified cryptocurrency.
+
+update_portfolio:
+  description: >
+    Reads the CSV file containing the portfolio, identifies the most recent transaction
+    for the specified cryptocurrency, and obtains the latest market value for that cryptocurrency.
+
+    Required parameters:
+    moneda: str = Field(..., description="Nombre de la criptomoneda a actualizar.")
+    patrimonio: float = Field(..., description="Valor de la inversión inicial.")
+    precio: float = Field(..., description="Precio actual de la criptomoneda.")
+    cantidad: float = Field(..., description="Cantidad total de la criptomoneda que se posee.")
+    csv_path: str = Field(..., description="Ruta del archivo CSV del portafolio.")
+
+    The task will:
+      1. Open and parse the portfolio CSV to find the most recent transaction for the given cryptocurrency.
+      2. Fetch the current market value for that cryptocurrency.
+      3. Return both the transaction details (date, price, quantity, operation) and the current market value.
+
+  expected_output: >
+    Returns the most recent transaction of the specified cryptocurrency along with its latest market price.
+
+compare_and_operate:
+  description: >
+    Compares the cryptocurrency data provided by the user with the cryptocurrency details held in the portfolio.
+    Based on the comparison of the analyzed crypto data (such as current market price and user's analysis)
+    and the crypto owned (including average purchase price and quantity), the agent will decide whether to
+    execute a trading operation. The agent can also decide not to operate and simply hold (in which case
+    the CSV should not be updated), or fractionally sell a percentage of the owned crypto to buy another currency.
+
+    You should consider the peak moments of the currency and think about whether to simply sell and not buy currency, or trade for another one. 
+    If you simply sell and do not buy, you must pass "usd-coin" as the currency parameter.
+    
+    The task will:
+      1. Compare the user's analyzed value for the cryptocurrency with the current market price.
+      2. Evaluate the performance of the crypto owned in the portfolio by comparing the average purchase price with the current market price.
+      3. Based on the above comparisons and the decision threshold, determine if executing a trade is advisable.
+      4. Return the detailed comparison results along with the operation decision (e.g., "operate" or "hold").
+
+    The analisis of the crypto is:
+    {crypto_analysis}
+    
+  expected_output: >
+    Returns a detailed report that includes:
+      - The operation he did (BUY or SELL).
+      - The performance analysis of the crypto owned.
+      - A final decision on whether to execute a trade operation.
